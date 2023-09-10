@@ -9,6 +9,6 @@ public:
             res*=(2*i)-1;
             res%=mod;
         }
-        return res%mod;
+        return res;
     }
 };
