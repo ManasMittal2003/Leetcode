@@ -19,10 +19,7 @@ public:
         while(i<l.size()){
             int left=l[i];
             int right=r[i];
-            vector<int> temp;
-            while(left<=right){
-                temp.push_back(nums[left++]);
-            }
+            vector<int> temp(nums.begin()+left,nums.begin()+right+1);
             if(rearr(temp)){
                 ans.push_back(true);
             }else{
