@@ -1,7 +1,7 @@
 class Solution {
 public:
     int maxLengthBetweenEqualCharacters(string s) {
-        map<char,int> mapping;
+        unordered_map<char,int> mapping;
         int maxlen=-1;
         for(int i=0;i<s.length();i++){
             if(mapping.find(s[i])!=mapping.end()){
