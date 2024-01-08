@@ -10,44 +10,33 @@
  */
 class Solution {
 public:
-    void revlist(ListNode* &prev){
-        ListNode *curr=prev->next;
-        prev->next=NULL;
+    ListNode *findmid(ListNode *head){
+        ListNode *fast=head;
+        ListNode *slow=head;
+        while(fast->next!=NULL&&fast->next->next!=NULL){
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        return slow;
+    }
+    bool isPalindrome(ListNode* head) {
+        ListNode *midnode=findmid(head);
+        ListNode *sstart=midnode->next;
+        ListNode *curr=sstart;
+        ListNode *prev=NULL;
+        ListNode *forward=NULL;
         while(curr!=NULL){
-            ListNode *forward=curr->next;
+            forward=curr->next;
             curr->next=prev;
             prev=curr;
             curr=forward;
         }
-    }
-    bool isPalindrome(ListNode* head) {
-        int cnt=0;
-        ListNode *temp=head;
-        while(temp!=NULL){
-            cnt++;
-            temp=temp->next;
-        }
-        int middle;
-        if(cnt%2==0){
-            middle=cnt/2;
-        }
-        else{
-            middle=(cnt/2)+1;
-        }
-        temp=head;
-        cnt=0;
-        while(cnt!=middle-1){
-            cnt++;
-            temp=temp->next;
-        }
-        revlist(temp);
-        ListNode *temp2=head;
-        while(temp2!=NULL){
-            if(temp2->val!=temp->val){
+        while(prev!=NULL){
+            if((prev->val)!=(head->val)){
                 return false;
             }
-            temp2=temp2->next;
-            temp=temp->next;
+            prev=prev->next;
+            head=head->next;
         }
         return true;
     }
