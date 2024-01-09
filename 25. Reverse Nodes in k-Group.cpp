@@ -10,30 +10,45 @@
  */
 class Solution {
 public:
-    ListNode* reverseKGroup(ListNode* head, int k) {
-        int size=0;
-        ListNode* temp = head;
-        while(temp!=NULL){
-            temp = temp -> next;
-            size++;
-        }
-        if(size<k){
-            return head;
-        }
-        int count=0;
-        ListNode *prev=NULL;
+    void reverse(ListNode *head){
         ListNode *curr=head;
         ListNode *forward=NULL;
-        while(curr!=NULL&&count<k){
+        ListNode *prev=NULL;
+        while(curr!=NULL){
             forward=curr->next;
             curr->next=prev;
             prev=curr;
             curr=forward;
-            count++;
         }
-        if(forward!=NULL){
-            head->next=reverseKGroup(forward,k);
+    }
+    ListNode *find(ListNode *head,int k){
+        int cnt=0;
+        while(head!=NULL&&cnt!=(k-1)){
+            head=head->next;
+            cnt++;
         }
-        return prev;
+        return head;
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode *temp=head;
+        ListNode *prev=NULL;
+        while(temp!=NULL){
+            ListNode *kth=find(temp,k);
+            if(kth==NULL){
+                if(prev) prev->next=temp;
+                break;
+            }
+            ListNode *nextnode=kth->next;
+            kth->next=NULL;
+            reverse(temp);
+            if(head==temp){
+                head=kth;
+            }else{
+                prev->next=kth;
+            }
+            prev=temp;
+            temp=nextnode;
+        }
+        return head;
     }
 };
