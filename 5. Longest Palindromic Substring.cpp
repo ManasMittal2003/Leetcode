@@ -1,30 +1,36 @@
 class Solution {
 public:
-    std::string longestPalindrome(std::string s) {
-        std::string T = "^#";
-        for (char c : s) {
-            T += c;
-            T += '#';
-        }
-        T += "$";
-
-        int n = T.size();
-        std::vector<int> P(n, 0);
-        int C = 0, R = 0;
-
-        for (int i = 1; i < n-1; ++i) {
-            P[i] = (R > i) ? std::min(R - i, P[2*C - i]) : 0;
-            while (T[i + 1 + P[i]] == T[i - 1 - P[i]])
-                P[i]++;
-
-            if (i + P[i] > R) {
-                C = i;
-                R = i + P[i];
+    string longestPalindrome(string s) {
+        string ans="";
+        int n=s.length();
+        bool dp[n][n];
+        memset(dp,false,sizeof(dp));
+        for(int i=1;i<=s.length();i++){
+            for(int j=0;i+j-1<n;j++){
+                int ending=i+j-1;
+                if(i==1){
+                    dp[j][ending]=true;
+                    if(ending-j+1>ans.length()){
+                        ans=s.substr(j,ending-j+1);
+                    }
+                }
+                else if(i==2){
+                    if(s[j]==s[ending]){
+                        dp[j][ending]=true;
+                        if(ending-j+1>ans.length()){
+                            ans=s.substr(j,ending-j+1);
+                        }
+                    }
+                }else{
+                    if(dp[j+1][ending-1]&&s[j]==s[ending]){
+                        dp[j][ending]=true;
+                        if(ending-j+1>ans.length()){
+                            ans=s.substr(j,ending-j+1);
+                        }
+                    }
+                }
             }
         }
-
-        int max_len = *std::max_element(P.begin(), P.end());
-        int center_index = std::distance(P.begin(), std::find(P.begin(), P.end(), max_len));
-        return s.substr((center_index - max_len) / 2, max_len);
+        return ans;
     }
 };
