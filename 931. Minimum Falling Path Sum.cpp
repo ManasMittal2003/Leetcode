@@ -10,10 +10,13 @@ public:
         if(dp[row][col]!=INT_MAX){
             return dp[row][col];
         }
+        int dcol[]={-1,0,1};
         int fres=INT_MAX;
-        fres=min(fres,matrix[row][col]+solve(col-1,row+1,matrix,dp));
-        fres=min(fres,matrix[row][col]+solve(col,row+1,matrix,dp));
-        fres=min(fres,matrix[row][col]+solve(col+1,row+1,matrix,dp));
+        for(int i=0;i<3;i++){
+            int newcol=col+dcol[i];
+            int result=matrix[row][col]+solve(newcol,row+1,matrix,dp);
+            fres=min(result,fres);
+        }
         return dp[row][col]=fres;
     }
     int minFallingPathSum(vector<vector<int>>& matrix) {
