@@ -10,27 +10,35 @@
  */
 class Solution {
 public:
-    ListNode* removeNthFromEnd(ListNode* head, int K) {
-        int cnt=0;
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        unordered_map<int,ListNode *> mp;
         ListNode *temp=head;
+        int a=1;
         while(temp!=NULL){
-            cnt++;
+            mp[a]=temp;
+            a++;
             temp=temp->next;
         }
-        int nodedel=cnt-K+1;
-        int i=1;
-        temp=head;
-        if(nodedel==1){
-            head=head->next;
+        a=a-1;
+        int delnode=a-n+1;
+        if(delnode==1){
+            if(head->next==NULL){
+                return NULL;
+            }else{
+                head=head->next;
+                return head;
+            }
+        }
+        int prev=delnode-1;
+        int next=delnode+1;
+        if(delnode==a){
+            ListNode *temp=mp[prev];
+            temp->next=NULL;
             return head;
         }
-        while(i<nodedel-1){
-            temp=temp->next;
-            i++;
-        }
-        ListNode *del=temp->next;
-        temp->next=del->next;
-        delete del;
+        ListNode *temp1=mp[prev];
+        ListNode *temp2=mp[next];
+        temp1->next=temp2;
         return head;
     }
 };
