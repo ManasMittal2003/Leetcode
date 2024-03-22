@@ -10,33 +10,32 @@
  */
 class Solution {
 public:
-    ListNode *findmid(ListNode *head){
-        ListNode *fast=head;
-        ListNode *slow=head;
-        while(fast->next!=NULL&&fast->next->next!=NULL){
-            fast=fast->next->next;
-            slow=slow->next;
-        }
-        return slow;
-    }
     bool isPalindrome(ListNode* head) {
-        ListNode *midnode=findmid(head);
-        ListNode *sstart=midnode->next;
-        ListNode *curr=sstart;
-        ListNode *prev=NULL;
-        ListNode *forward=NULL;
-        while(curr!=NULL){
-            forward=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=forward;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast != NULL && fast->next != NULL && fast->next->next != NULL) {
+            slow = slow->next;
+            fast = fast->next->next;
         }
-        while(prev!=NULL){
-            if((prev->val)!=(head->val)){
+        ListNode* head2 = slow->next;
+        slow->next = NULL;
+        ListNode* curr = head2;
+        ListNode* forw;
+        ListNode* prev = NULL;
+        while (curr != NULL) {
+            forw = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = forw;
+        }
+        ListNode* i = head;
+        ListNode* j = prev;
+        while (i != j && i != NULL && j != NULL) {
+            if (i->val != j->val) {
                 return false;
             }
-            prev=prev->next;
-            head=head->next;
+            i = i->next;
+            j = j->next;
         }
         return true;
     }
