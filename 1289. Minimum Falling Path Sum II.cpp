@@ -10,11 +10,11 @@ public:
         }
         int n = grid.size();
         int m = grid[0].size();
-        int minans = 1e6;
+        int minans = INT_MAX;
         for (int i = 0; i < m; i++) {
             if (i != col) {
-                int res = grid[row][col] + solve(row + 1, i, grid, dp);
-                minans = min(res, minans);
+                minans =
+                    min(minans, grid[row][col] + solve(row + 1, i, grid, dp));
             }
         }
         return dp[row][col] = minans;
