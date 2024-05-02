@@ -7,7 +7,7 @@ public:
             if (abs(nums[i]) == abs(nums[j])) {
                 return nums[j];
             } else if (abs(nums[i]) > abs(nums[j])) {
-                ia++;
+                i++;
             } else {
                 j--;
             }
